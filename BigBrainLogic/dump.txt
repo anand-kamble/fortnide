@@ -1,0 +1,94 @@
+
+function _LoadAnimatedModelAndPlay(path, modelFile, animFile, offset) {
+    const loader = new FBXLoader();
+    loader.setPath(path);
+    loader.load(modelFile, (fbx) => {
+      fbx.scale.setScalar(0.1);
+      fbx.traverse(c => {
+        c.castShadow = true;
+      });
+      fbx.position.copy(offset);
+
+      const anim = new FBXLoader();
+      anim.setPath(path);
+      anim.load(animFile, (anim) => {
+        const m = new THREE.AnimationMixer(fbx);
+        _mixers.push(m);
+        const idle = m.clipAction(anim.animations[0]);
+        idle.play();
+      });
+      scene.add(fbx);
+    });
+  }
+
+fbxLoader.load(
+    '/ass/maria_a.fbx',
+    (object) => {
+        // object.traverse(function (child) {
+        //     if ((child as THREE.Mesh).isMesh) {
+        //         // (child as THREE.Mesh).material = material
+        //         if ((child as THREE.Mesh).material) {
+        //             ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).transparent = false
+        //         }
+        //     }
+        // })
+        if ( object.isMesh ) object.castShadow = true;
+        
+        scene.add(object)
+
+        mixer = new THREE.AnimationMixer( object );
+
+     
+
+        const anim = new FBXLoader();
+        anim.setPath('/ass/');
+        anim.load('HipHopA.fbx', (anim) => {
+          const m = new THREE.AnimationMixer(object);
+          _mixers.push(m);
+          const idle = m.clipAction(anim.animations[0]);
+          idle.play();
+          anim.scale.set(FBXModelSize, FBXModelSize,FBXModelSize)
+          object.scale.set(FBXModelSize, FBXModelSize,FBXModelSize)
+            // object.position.set(3,0,3)
+        });
+        scene.add(object); 
+      
+
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+    },
+    (error) => {
+        console.log(error)
+    }
+) 
+
+function imageLoader(x,y,z,url,name){
+    var planeW,planeH,cube;
+    const texture = new THREE.TextureLoader().load( "/ffile/"+encodeURIComponent(url) , (tex)=>{                
+        planeW = texture.image.width;
+        planeH = texture.image.height;
+
+        const geometry = new THREE.PlaneGeometry( planeW/1000, planeH/1000 );
+        const material = new THREE.MeshBasicMaterial({map: texture,side : THREE.DoubleSide });
+        cube = new THREE.Mesh( geometry, material );
+        //cube.material.needsUpdate = true;
+                
+
+        scene.add( cube );
+        cube.position.x=x;
+        cube.position.y += planeH/2000;
+        cube.position.z=z;
+        cube.name = name;
+        cube.castShadow = true;
+    
+
+    } );
+}
+
+
+ for(var i=1;i<2;i++){
+    imageLoader(i*2,0,0,'https://images.unsplash.com/photo-1617978441921-29f82b7aee2b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80','her');
+    //imageLoader(i*2,0,-3,'https://www.babepedia.com/galleries/Penthouse-AmazingVioletSummersFeelsBetterWithoutHerSwimsuitOn/1'+i+'.jpg','her');
+    //imageLoader(2,0,0,'https://images.pexels.com/photos/11082557/pexels-photo-11082557.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260','her');
+} 
