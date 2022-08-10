@@ -1,12 +1,12 @@
 import { User_Types } from './modals';
 
-interface class_root {
-  vars: global_variables_T;
-}
-
 interface global_variables_T {
   'version': number;
   'user_type': User_Types;
+  'window-dimensions': {
+    'x': number;
+    'y': number;
+  };
 }
 
 class _global_variables {
@@ -15,6 +15,7 @@ class _global_variables {
     this.vars = {
       'version': 1,
       'user_type': User_Types.Guest,
+      'window-dimensions': { 'x': 0, 'y': 0 },
     } as global_variables_T;
   }
 
