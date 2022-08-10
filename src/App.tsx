@@ -1,7 +1,11 @@
 import React from 'react';
 import * as THREE from 'three';
+import brower_initiator from './core/brower_initiator';
+import global_variables from './core/global_variables';
 
 function App() {
+  brower_initiator();
+
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -10,7 +14,7 @@ function App() {
   document.body.appendChild(renderer.domElement);
 
   const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const material = new THREE.MeshBasicMaterial({ 'color': 0x00ff00 });
   const cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
