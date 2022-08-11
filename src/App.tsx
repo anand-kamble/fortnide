@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import brower_initiator from './core/helpers/browser_initiator';
-import init from './core/render_engine/init';
+import { init_scene } from './core/render_engine';
 
 function App() {
   brower_initiator();
-  init();
+  init_scene();
+
   return <span />;
 }
 

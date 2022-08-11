@@ -7,6 +7,9 @@ const brower_initiator = () => {
   window.addEventListener('resize', () => {
     global_variables.set('window-dimensions', { 'x': window.innerWidth, 'y': window.innerHeight });
   });
+  document.body.addEventListener('click', () => {
+    document.body.requestPointerLock();
+  });
 };
 
 export default brower_initiator;
