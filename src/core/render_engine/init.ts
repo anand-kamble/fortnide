@@ -1,19 +1,20 @@
-import { BoxGeometry, MeshBasicMaterial, Mesh, PlaneGeometry, DoubleSide } from 'three';
+import { BoxGeometry, MeshBasicMaterial, Mesh, PlaneGeometry, DoubleSide, SphereGeometry, TextureLoader } from 'three';
 import animator from './animator';
-
+import sky_texture from '../media/images/sky.jpg';
 const init_scene = () => {
-  animator.start_render();
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshBasicMaterial({ 'color': 0x00ff00 });
-  const cube = new Mesh(geometry, material);
-  animator.scene.add(cube);
-  const geometryp = new PlaneGeometry(3, 3);
-  const materialp = new MeshBasicMaterial({ 'color': 0xffff00, 'side': DoubleSide });
-  const plane = new Mesh(geometryp, materialp);
+  const geometry = new SphereGeometry(15, 32, 16);
+  // const material = new MeshBasicMaterial({ 'color': 0xffff00 });
+  const texture = new TextureLoader().load(sky_texture);
+  const material = new MeshBasicMaterial({ 'map': texture, 'side': DoubleSide });
+  const sphere = new Mesh(geometry, material);
+  animator.scene.add(sphere);
 
+  const geometry_plane = new PlaneGeometry(10, 10);
+  const material_plane = new MeshBasicMaterial({ 'color': 0xffff00, 'side': DoubleSide });
+  const plane = new Mesh(geometry_plane, material_plane);
   animator.scene.add(plane);
 
-  animator.camera.position.z = 5;
+  animator.start_render();
 };
 
 export default init_scene;

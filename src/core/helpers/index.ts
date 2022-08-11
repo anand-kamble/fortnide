@@ -4,4 +4,8 @@ const get_element = (id: string) => {
   }
 };
 
-export { get_element };
+const radian_from_degree: (deg: number) => number = deg => {
+  return (deg * Math.PI) / 180;
+};
+
+export { get_element, radian_from_degree };

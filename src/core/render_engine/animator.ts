@@ -1,10 +1,11 @@
-import { Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Clock, Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import global_variables from '../global_variables';
 
 class _animator {
   scene: Scene;
   camera: PerspectiveCamera;
   scene_renderer: WebGLRenderer;
+  clock: Clock;
   renderers: {
     'id': string;
     'render_function': Function;
@@ -12,9 +13,10 @@ class _animator {
 
   constructor() {
     this.renderers = [];
+    this.clock = new Clock();
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
-      120,
+      50,
       global_variables.get('window-dimensions').x / global_variables.get('window-dimensions').y || 1,
       0.1,
       1000

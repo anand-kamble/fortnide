@@ -7,11 +7,15 @@ interface _var_structure<T> {
 interface global_variables_T {
   'version': _var_structure<number>;
   'user_type': _var_structure<User_Types>;
+  'max-fps': _var_structure<number>;
+  'mouse-delta': _var_structure<{
+    'x': number;
+    'y': number;
+  }>;
   'window-dimensions': _var_structure<{
     'x': number;
     'y': number;
   }>;
-  'max-fps': _var_structure<number>;
 }
 
 class _global_variables {
@@ -26,6 +30,7 @@ class _global_variables {
       'user_type': { 'value': User_Types.Guest, 'callbacks': [() => {}] },
       'window-dimensions': { 'value': { 'x': window.innerWidth || 1, 'y': window.innerHeight || 1 }, 'callbacks': [() => {}] },
       'max-fps': { 'value': 60, 'callbacks': [() => {}] },
+      'mouse-delta': { 'value': { 'x': 0, 'y': 0 }, 'callbacks': [() => {}] },
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));
   }
