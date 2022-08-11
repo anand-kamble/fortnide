@@ -24,7 +24,7 @@ class _global_variables {
     this.vars = {
       'version': { 'value': 1, 'callbacks': [() => {}] },
       'user_type': { 'value': User_Types.Guest, 'callbacks': [() => {}] },
-      'window-dimensions': { 'value': { 'x': 0, 'y': 0 }, 'callbacks': [() => {}] },
+      'window-dimensions': { 'value': { 'x': window.innerWidth || 1, 'y': window.innerHeight || 1 }, 'callbacks': [() => {}] },
       'max-fps': { 'value': 60, 'callbacks': [() => {}] },
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));

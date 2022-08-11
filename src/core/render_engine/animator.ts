@@ -1,9 +1,9 @@
-import { Scene, WebGLRenderer } from 'three';
+import { Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import global_variables from '../global_variables';
 
 class _animator {
-  scene: Scene | null;
-  camera: any;
+  scene: Scene;
+  camera: PerspectiveCamera;
   scene_renderer: WebGLRenderer;
   renderers: {
     'id': string;
@@ -12,18 +12,24 @@ class _animator {
 
   constructor() {
     this.renderers = [];
-    this.scene = null;
-    this.camera = null;
+    this.scene = new Scene();
+    this.camera = new PerspectiveCamera(
+      120,
+      global_variables.get('window-dimensions').x / global_variables.get('window-dimensions').y || 1,
+      0.1,
+      1000
+    );
     this.scene_renderer = new WebGLRenderer();
     this.scene_renderer.setSize(global_variables.get('window-dimensions').x, global_variables.get('window-dimensions').y);
     document.body.appendChild(this.scene_renderer.domElement);
-    const scope = this;
     global_variables.addObserver('window-dimensions', (val: { 'x': number; 'y': number }) => {
       this.scene_renderer.setSize(val.x, val.y);
+      this.camera.aspect = global_variables.get('window-dimensions').x / global_variables.get('window-dimensions').y;
+      this.camera.updateProjectionMatrix();
     });
   }
 
-  add(id: string, render_function: Function) {
+  add_renderer(id: string, render_function: Function) {
     this.renderers.push({
       'id': id,
       'render_function': render_function,
@@ -41,12 +47,16 @@ class _animator {
     if (this.renderers.length) this.renderers.forEach(v => v.render_function());
   }
 
-  set_scene(scene: any) {
+  set_scene(scene: Scene) {
     this.scene = scene;
   }
 
-  set_camera(camera: any) {
+  set_camera(camera: PerspectiveCamera) {
     this.camera = camera;
+  }
+
+  add_to_scene(object: Object3D) {
+    this.scene.add(object);
   }
 
   start_render() {
@@ -56,7 +66,7 @@ class _animator {
 
   private animate() {
     requestAnimationFrame(animator.update.bind(animator));
-    if (this.scene) this.scene_renderer.render(this.scene, this.camera);
+    this.scene_renderer.render(this.scene, this.camera);
   }
 }
 

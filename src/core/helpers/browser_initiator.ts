@@ -1,4 +1,5 @@
 import global_variables from '../global_variables';
+import { animator } from '../render_engine';
 
 const brower_initiator = () => {
   document.documentElement.setAttribute('lang', navigator.language);
