@@ -21,6 +21,7 @@
     "rules": {
         "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "quote-props":"error",
-        "no-console":"error"
+        "no-console":"error",
+        "eqeqeq":"error"
     }
 }

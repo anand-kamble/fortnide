@@ -1,29 +1,20 @@
-import { Scene, PerspectiveCamera, WebGLRenderer, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
-import global_variables from '../global_variables';
+import { BoxGeometry, MeshBasicMaterial, Mesh, PlaneGeometry, DoubleSide, SphereGeometry, TextureLoader } from 'three';
 import animator from './animator';
+import sky_texture from '../media/images/sky.jpg';
+const init_scene = () => {
+  const geometry = new SphereGeometry(15, 32, 16);
+  // const material = new MeshBasicMaterial({ 'color': 0xffff00 });
+  const texture = new TextureLoader().load(sky_texture);
+  const material = new MeshBasicMaterial({ 'map': texture, 'side': DoubleSide });
+  const sphere = new Mesh(geometry, material);
+  animator.scene.add(sphere);
 
-const init = () => {
-  const scene = new Scene();
-  const camera = new PerspectiveCamera(120, global_variables.get('window-dimensions').x / global_variables.get('window-dimensions').y, 0.1, 1000);
-  const renderer = new WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  const geometry_plane = new PlaneGeometry(10, 10);
+  const material_plane = new MeshBasicMaterial({ 'color': 0xffff00, 'side': DoubleSide });
+  const plane = new Mesh(geometry_plane, material_plane);
+  animator.scene.add(plane);
 
-  const geometry = new BoxGeometry(1, 1, 1);
-  const material = new MeshBasicMaterial({ 'color': 0x00ff00 });
-  const cube = new Mesh(geometry, material);
-  scene.add(cube);
-
-  camera.position.z = 5;
-  const animate = () => {
-    requestAnimationFrame(animator.update.bind(animator));
-    renderer.render(scene, camera);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-  };
-  //   animate();
-  animator.add('main', animate);
-  animator.update();
+  animator.start_render();
 };
 
-export default init;
+export default init_scene;
