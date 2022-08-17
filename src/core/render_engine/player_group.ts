@@ -32,7 +32,7 @@ const player_group_object = () => {
   animator.scene.add(player_group);
   animator.camera.rotateX(radian_from_degree(45));
 
-  animator.add_renderer('player_group', () => {
+  animator.add_renderer('player_group', c => {
     animator.camera.lookAt(player_group.position);
   });
 };
