@@ -8,7 +8,7 @@ class _animator {
   clock: Clock;
   renderers: {
     'id': string;
-    'render_function': Function;
+    'render_function': (clock: Clock) => void;
   }[];
 
   constructor() {
@@ -31,7 +31,7 @@ class _animator {
     });
   }
 
-  add_renderer(id: string, render_function: Function) {
+  add_renderer(id: string, render_function: (clock: Clock) => void) {
     this.renderers.push({
       'id': id,
       'render_function': render_function,
@@ -46,7 +46,7 @@ class _animator {
   }
 
   update(time: number) {
-    if (this.renderers.length) this.renderers.forEach(v => v.render_function());
+    if (this.renderers.length) this.renderers.forEach(v => v.render_function(this.clock));
   }
 
   set_scene(scene: Scene) {
