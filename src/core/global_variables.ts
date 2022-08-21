@@ -1,3 +1,4 @@
+import { Vector3 } from 'three';
 import { User_Types } from './modals';
 
 interface _var_structure<T> {
@@ -34,6 +35,11 @@ class _global_variables {
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));
   }
+
+  // CONST which wont be changed during run time.
+  readonly X_axis = new Vector3(1, 0, 0);
+  readonly Y_axis = new Vector3(0, 1, 0);
+  readonly Z_axis = new Vector3(0, 0, 1);
 
   get(key: keyof global_variables_T) {
     return structuredClone(this.vars[key].value);
