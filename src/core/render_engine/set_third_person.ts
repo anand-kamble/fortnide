@@ -3,14 +3,7 @@ import global_variables from '../global_variables';
 import animator from './animator';
 
 const set_third_person = (addTo: Object3D) => {
-  var camera: Camera, scene: Scene, mesh: Object3D, goal: Object3D, /* keys: { [k: string]: boolean }, */ follow: Object3D;
-
-  //   var time = 0;
-  //   var newPosition = new Vector3();
-  //   var matrix = new Matrix4();
-
-  //   var stop = 1;
-  //   var DEGTORAD = 0.01745327;
+  var camera: Camera, scene: Scene, mesh: Object3D, goal: Object3D, follow: Object3D;
   var temp = new Vector3();
   var dir = new Vector3();
   var a = new Vector3();
@@ -26,10 +19,7 @@ const set_third_person = (addTo: Object3D) => {
   scene = animator.scene;
   camera.lookAt(scene.position);
 
-  //   var geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
-  //   var material = new MeshNormalMaterial();
-
-  mesh = addTo; // new Mesh(geometry, material);
+  mesh = addTo;
 
   goal = new Object3D();
   follow = new Object3D();

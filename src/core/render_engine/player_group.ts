@@ -18,14 +18,16 @@ const player_group_object = () => {
     gltf.asset; // Object
   });
 
+  // Created a point around which the camera will revolve.
   var geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
   var material = new MeshNormalMaterial();
-
   var revolve_point = new Mesh(geometry, material);
   revolve_point.position.y = 1.6;
   revolve_point.position.x = -0.2;
 
+  // Set the third person camera to follow the point.
   set_third_person(revolve_point);
+
   const light = new PointLight(0xff0000, 1, 100);
   light.position.set(3, -3, 3);
   player_group.add(light);
