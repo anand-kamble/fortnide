@@ -1,10 +1,9 @@
 import animator from './animator';
 import glft_data from '../media/models/walking.glb';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Clock, Color, GridHelper, Group, Matrix4, PointLight, Scene, Vector3 } from 'three';
-import global_variables from '../global_variables';
+import { BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight } from 'three';
 import { radian_from_degree } from '../helpers';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import set_third_person from './set_third_person';
 
 const player_group_object = () => {
   const loader = new GLTFLoader();
@@ -12,28 +11,28 @@ const player_group_object = () => {
   loader.load(glft_data, function (gltf) {
     gltf.scene.rotateX(radian_from_degree(90));
     player_group.add(gltf.scene);
-    gltf.animations; // Array<THREE.AnimationClip>
-    gltf.scene; // THREE.Group
-    gltf.scenes; // Array<THREE.Group>
-    gltf.cameras; // Array<THREE.Camera>
+    gltf.animations; // Array<AnimationClip>
+    gltf.scene; // Group
+    gltf.scenes; // Array<Group>
+    gltf.cameras; // Array<Camera>
     gltf.asset; // Object
   });
 
-  const control = new OrbitControls(animator.camera, animator.scene_renderer.domElement);
-  control.maxDistance = 5;
-  control.target = player_group.position;
+  // Created a point around which the camera will revolve.
+  var geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
+  var material = new MeshNormalMaterial();
+  var revolve_point = new Mesh(geometry, material);
+  revolve_point.position.y = 1.6;
+  revolve_point.position.x = -0.2;
+
+  // Set the third person camera to follow the point.
+  set_third_person(revolve_point);
 
   const light = new PointLight(0xff0000, 1, 100);
   light.position.set(3, -3, 3);
   player_group.add(light);
+  player_group.rotateX(radian_from_degree(-90));
 
-  animator.camera.position.z = 5;
-  animator.camera.rotateX(radian_from_degree(-45));
   animator.scene.add(player_group);
-  animator.camera.rotateX(radian_from_degree(45));
-
-  animator.add_renderer('player_group', c => {
-    animator.camera.lookAt(player_group.position);
-  });
 };
 export default player_group_object;
