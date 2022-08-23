@@ -143,3 +143,98 @@ function animate() {
 }
 
 export {};
+
+// import * as THREE from "https://cdn.skypack.dev/three@0.132.1/build/three.module.js";
+// import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.1/examples/jsm/controls/OrbitControls.js";
+
+// const WIDTH = window.innerWidth;
+// const HEIGHT = window.innerHeight;
+
+// const scene = new THREE.Scene();
+// const camera = new THREE.PerspectiveCamera( 75, WIDTH / HEIGHT, 0.1, 1000 );
+// camera.position.set( 2, 5, 10 );
+
+// const renderer = new THREE.WebGLRenderer({ antialias: true });
+// renderer.setSize( WIDTH, HEIGHT );
+// document.body.appendChild( renderer.domElement );
+
+// const controls = new OrbitControls( camera, renderer.domElement );
+
+// //
+
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
+
+// // LINE
+
+// const points = [];
+// points.push( new THREE.Vector3( -5, 3, 0 ) );
+// points.push( new THREE.Vector3( 5, 3, 0 ) );
+
+// const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+// const line = new THREE.Line(
+//   geometry,
+//   new THREE.LineBasicMaterial({ color: 0xff00ff })
+// );
+
+// scene.add( line );
+
+// // PLANE
+
+// const mesh = new THREE.Mesh(
+// 	new THREE.PlaneGeometry( 5, 5 ),
+//   new THREE.MeshNormalMaterial({ side: THREE.DoubleSide })
+// );
+
+// scene.add( mesh );
+
+// //
+
+// THREE.Object3D.prototype.rotateAroundWorldAxis = function() {
+
+//     // rotate object around axis in world space (the axis passes through point)
+//     // axis is assumed to be normalized
+//     // assumes object does not have a rotated parent
+
+//     var q = new THREE.Quaternion();
+
+//     return function rotateAroundWorldAxis( point, axis, angle ) {
+
+//         q.setFromAxisAngle( axis, angle );
+
+//         this.applyQuaternion( q );
+
+//         this.position.sub( point );
+//         this.position.applyQuaternion( q );
+//         this.position.add( point );
+
+//         return this;
+
+//     }
+
+// }();
+
+// function rotateAroundAxis() {
+
+// 	if ( !mesh ) return
+
+//   const vecA = points[0];
+//   const vecB = points[1];
+//   const vec = new THREE.Vector3();
+
+//   vec.copy( vecA ).sub( vecB ).normalize();
+
+//   mesh.rotateAroundWorldAxis( vecA, vec, 0.1 );
+
+// }
+
+// //
+
+// function animate() {
+//   requestAnimationFrame( animate );
+//   rotateAroundAxis();
+//   renderer.render( scene, camera );
+// };
+
+// animate();
