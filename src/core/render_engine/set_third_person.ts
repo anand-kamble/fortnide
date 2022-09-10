@@ -59,14 +59,11 @@ const set_third_person = (addTo: Object3D) => {
   const line2 = new Line(geometry2, material2);
   const holder = new Group();
   holder.add(line);
-  // line2.rotation.set(0, radian_from_degree(90), 0);
-  // line2.rotateY(radian_from_degree(90));
   line2.position.set(addTo.position.x, 0, addTo.position.z);
 
   holder.add(line2);
   animator.scene.add(holder);
   animator.add_renderer('third_person_camera', () => {
-    // line2.rotateY(radian_from_degree(90));
     speed = 0.0;
     velocity += (speed - velocity) * 0.3;
     mesh.translateZ(velocity);
