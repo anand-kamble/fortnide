@@ -1,9 +1,7 @@
-//@ts-nocheck
-
 import animator from './animator';
 import glft_data from '../media/models/Xbot.glb';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight, Vector3 } from 'three';
+import { AnimationAction, AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight, Vector3 } from 'three';
 import { radian_from_degree } from '../helpers';
 import set_third_person from './set_third_person';
 import global_variables from '../global_variables';
@@ -11,27 +9,27 @@ import global_variables from '../global_variables';
 const player_group_object = () => {
   const loader = new GLTFLoader();
   const player_group = new Group();
-  let player_model,
+  let player_model: Group,
     animations,
-    mixer,
+    mixer: AnimationMixer,
     numAnimations = 0,
-    allActions = [],
-    camera = animator.camera,
     model_loaded = false,
-    tempCameraVector = new Vector3(),
-    tempModelVector = new Vector3(),
     movingForward = false;
-  const baseActions = {
+  const camera = animator.camera;
+  const tempCameraVector = new Vector3();
+  const tempModelVector = new Vector3();
+  const allActions: AnimationAction[] = [];
+  const baseActions: { [k: string]: { [k: string]: AnimationAction | number } } = {
     'idle': { 'weight': 1 },
     'walk': { 'weight': 0 },
     'run': { 'weight': 0 },
   };
-  function setWeight(action, weight) {
+  function setWeight(action: AnimationAction, weight: AnimationAction | number) {
     action.enabled = true;
     action.setEffectiveTimeScale(1);
-    action.setEffectiveWeight(weight);
+    action.setEffectiveWeight(weight as number);
   }
-  function activateAction(action) {
+  function activateAction(action: AnimationAction) {
     const clip = action.getClip();
     const settings = baseActions[clip.name];
     setWeight(action, settings.weight);
@@ -50,7 +48,7 @@ const player_group_object = () => {
     gltf.cameras; // Array<Camera>
     gltf.asset; // Object
     gltf.scene.traverse(function (child) {
-      if (child.isMesh) {
+      if ((child as Mesh).isMesh) {
         child.castShadow = true;
       }
     });
@@ -76,8 +74,8 @@ const player_group_object = () => {
     if (keyCode === 87 || keyCode === 38) {
       baseActions.idle.weight = 0;
       baseActions.run.weight = 5;
-      activateAction(baseActions.run.action);
-      activateAction(baseActions.idle.action);
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
       movingForward = true;
     }
   });
@@ -87,8 +85,8 @@ const player_group_object = () => {
     if (keyCode === 87 || keyCode === 38) {
       baseActions.idle.weight = 1;
       baseActions.run.weight = 0;
-      activateAction(baseActions.run.action);
-      activateAction(baseActions.idle.action);
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
       movingForward = false;
     }
   });
