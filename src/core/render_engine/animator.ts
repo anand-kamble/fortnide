@@ -45,7 +45,7 @@ class _animator {
     );
   }
 
-  update(time: number) {
+  update() {
     if (this.renderers.length) this.renderers.forEach(v => v.render_function(this.clock));
   }
 

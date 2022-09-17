@@ -1,0 +1,4 @@
+@font-face {
+  font-family: 'button-font';
+  src: local('button-font'), url('../assests/fonts/D-DIN.otf') format('otf');
+}

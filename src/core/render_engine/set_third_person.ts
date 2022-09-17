@@ -3,33 +3,33 @@ import global_variables from '../global_variables';
 import animator from './animator';
 
 const set_third_person = (addTo: Object3D) => {
-  var camera: Camera, scene: Scene, mesh: Object3D, goal: Object3D, follow: Object3D;
-  var temp = new Vector3();
-  var dir = new Vector3();
-  var a = new Vector3();
-  var b = new Vector3();
-  var coronaSafetyDistance = 5;
-  var velocity = 0.0;
-  var speed = 0.0;
+  // let  mesh: Object3D, goal: Object3D, follow: Object3D;
+  const temp = new Vector3();
+  const dir = new Vector3();
+  const a = new Vector3();
+  const b = new Vector3();
+  const coronaSafetyDistance = 5;
+  let velocity = 0.0;
+  let speed = 0.0;
 
-  camera = animator.camera;
+  const camera: Camera = animator.camera;
 
   camera.position.set(0, 0.3, 0);
 
-  scene = animator.scene;
+  const scene: Scene = animator.scene;
   camera.lookAt(scene.position);
 
-  mesh = addTo;
+  const mesh: Object3D = addTo;
 
-  goal = new Object3D();
-  follow = new Object3D();
+  const goal: Object3D = new Object3D();
+  const follow: Object3D = new Object3D();
   follow.position.z = -coronaSafetyDistance;
   mesh.add(follow);
 
   goal.add(camera);
   scene.add(mesh);
 
-  var gridHelper = new GridHelper(40, 40);
+  const gridHelper = new GridHelper(40, 40);
   scene.add(gridHelper);
 
   scene.add(new AxesHelper());

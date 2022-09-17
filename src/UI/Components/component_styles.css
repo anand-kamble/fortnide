@@ -1,0 +1,10 @@
+.button {
+  border: 1px solid gray;
+  padding: 1rem 2rem;
+  color: white;
+  font-family: 'button-font';
+  text-transform: uppercase;
+}
+
+.button:hover {
+}

@@ -4,7 +4,9 @@
         "es2021": true
     },
     "extends": [
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -23,6 +25,7 @@
         "quote-props":"error",
         "no-console":"error",
         "eqeqeq":"error",
-        "no-unused-vars":"error"
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"]
     }
 }

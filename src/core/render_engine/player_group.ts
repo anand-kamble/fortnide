@@ -19,9 +19,9 @@ const player_group_object = () => {
   });
 
   // Created a point around which the camera will revolve.
-  var geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
-  var material = new MeshNormalMaterial();
-  var revolve_point = new Mesh(geometry, material);
+  const geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
+  const material = new MeshNormalMaterial();
+  const revolve_point = new Mesh(geometry, material);
   revolve_point.position.y = 1.6;
   revolve_point.position.x = -0.2;
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/ban-types */
 import { User_Types } from './modals';
 
 interface _var_structure<T> {
@@ -24,6 +26,7 @@ class _global_variables {
     var_id: keyof global_variables_T;
     callbacks: Function[];
   }[];
+  private update: boolean;
   constructor() {
     this.vars = {
       'version': { 'value': 1, 'callbacks': [() => {}] },
@@ -33,6 +36,7 @@ class _global_variables {
       'mouse-delta': { 'value': { 'x': 0, 'y': 0 }, 'callbacks': [() => {}] },
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));
+    this.update = false;
   }
 
   get(key: keyof global_variables_T) {
@@ -40,6 +44,7 @@ class _global_variables {
   }
 
   set(key: keyof global_variables_T, value: unknown) {
+    if (!this.update) return;
     if (typeof this.vars[key] === typeof value) {
       this.vars[key].value = value as never;
       this.vars[key].callbacks.forEach(cb => cb(value));
@@ -50,6 +55,10 @@ class _global_variables {
 
   addObserver(key: keyof global_variables_T, callback: Function) {
     this.vars[key].callbacks.push(callback);
+  }
+
+  allow_update(value: boolean) {
+    this.update = value;
   }
 }
 const global_variables = new _global_variables();
