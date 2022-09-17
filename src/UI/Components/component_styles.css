@@ -4,7 +4,11 @@
   color: white;
   font-family: 'button-font';
   text-transform: uppercase;
+  width: max-content;
+  cursor: pointer;
 }
 
 .button:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px white;
 }

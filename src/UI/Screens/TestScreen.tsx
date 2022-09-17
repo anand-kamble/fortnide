@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import { ScreenType } from '.';
 import { core_set_allow_update } from '../../core';
 import { Button } from '../Components';
 import { test_screen_styles } from '../StyleSheets';
 
-const TestScreen = () => {
+const TestScreen = ({ set_state, state }: ScreenType) => {
   useEffect(() => {
     core_set_allow_update(false);
 
@@ -14,11 +15,16 @@ const TestScreen = () => {
 
   return (
     <div className="flex justify-center	items-center" style={test_screen_styles}>
-      {new Array(3).fill(0).map((_, i) => (
-        <div className="px-2" key={i}>
-          <Button />
-        </div>
-      ))}
+      <div className="px-2">
+        <Button
+          text="Start"
+          on_click={() => {
+            core_set_allow_update(true);
+            set_state({ ...state, 'started': true });
+            document.body.requestPointerLock();
+          }}
+        />
+      </div>
     </div>
   );
 };

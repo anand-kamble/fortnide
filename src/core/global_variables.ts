@@ -65,8 +65,9 @@ class _global_variables {
     this.vars[key].callbacks.push(callback);
   }
 
-  allow_update(value: boolean) {
-    this.update = value;
+  allow_update(value?: boolean) {
+    if (value !== undefined) this.update = value;
+    return this.update;
   }
 }
 const global_variables = new _global_variables();

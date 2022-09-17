@@ -1,17 +1,23 @@
 import React from 'react';
 import { Howl } from 'howler';
-import tickSound from '../assests/sounds/HH.mp3';
+import tickSound from '../assests/sounds/Button.mp3';
 import Log from '../../Logger';
 import './component_styles.css';
 
-const Button = () => {
+interface Button {
+  'on_click': () => void;
+  'text': string;
+  'play_sound'?: boolean;
+}
+
+const Button = ({ text, on_click, play_sound = true }: Button) => {
   const tick = new Howl({
     'src': [tickSound],
     'onloaderror': () => Log.warn('UI', 'FAILS'),
   });
   return (
-    <div className="button" onMouseEnter={() => tick.play()} onMouseLeave={() => tick.play()}>
-      Button
+    <div className="button" onClick={on_click} onMouseEnter={() => (play_sound ? tick.play() : null)}>
+      {text}
     </div>
   );
 };

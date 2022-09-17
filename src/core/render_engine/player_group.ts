@@ -71,7 +71,7 @@ const player_group_object = () => {
 
   window.addEventListener('keydown', e => {
     const { keyCode } = e;
-    if (keyCode === 87 || keyCode === 38) {
+    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
       baseActions.run.weight = 5;
       activateAction(baseActions.run.action as AnimationAction);
@@ -82,7 +82,7 @@ const player_group_object = () => {
 
   window.addEventListener('keyup', e => {
     const { keyCode } = e;
-    if (keyCode === 87 || keyCode === 38) {
+    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
       baseActions.run.weight = 0;
       activateAction(baseActions.run.action as AnimationAction);
@@ -117,7 +117,7 @@ const player_group_object = () => {
         const settings = baseActions[clip.name];
         settings.weight = action.getEffectiveWeight();
       }
-      if (movingForward) {
+      if (movingForward && global_variables.allow_update()) {
         // player_group.position.z += 0.1;
 
         camera.getWorldDirection(tempCameraVector);
