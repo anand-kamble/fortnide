@@ -1,6 +1,6 @@
 export enum User_Types {
-  Guest = 'guest',
-  Authenticated = 'authenticated',
+  'Guest' = 'guest',
+  'Authenticated' = 'authenticated',
 }
 
 //TODO : COMPLETE THIS

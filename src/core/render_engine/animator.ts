@@ -8,7 +8,7 @@ class _animator {
   clock: Clock;
   renderers: {
     'id': string;
-    'render_function': (clock: Clock) => void;
+    'render_function': (clock_delta: number) => void;
   }[];
 
   constructor() {
@@ -31,7 +31,7 @@ class _animator {
     });
   }
 
-  add_renderer(id: string, render_function: (clock: Clock) => void) {
+  add_renderer(id: string, render_function: (clock_delta: number) => void) {
     this.renderers.push({
       'id': id,
       'render_function': render_function,
@@ -46,7 +46,10 @@ class _animator {
   }
 
   update() {
-    if (this.renderers.length) this.renderers.forEach(v => v.render_function(this.clock));
+    if (this.renderers.length) {
+      const clock_delta = this.clock.getDelta();
+      this.renderers.forEach(v => v.render_function(clock_delta));
+    }
   }
 
   set_scene(scene: Scene) {

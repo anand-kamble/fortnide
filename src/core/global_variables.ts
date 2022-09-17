@@ -1,3 +1,4 @@
+import { Vector3 } from 'three';
 import { User_Types } from './modals';
 
 interface _var_structure<T> {
@@ -12,6 +13,7 @@ interface global_variables_T {
     'x': number;
     'y': number;
   }>;
+  'mouse-sensitivity': _var_structure<number>;
   'window-dimensions': _var_structure<{
     'x': number;
     'y': number;
@@ -31,9 +33,15 @@ class _global_variables {
       'window-dimensions': { 'value': { 'x': window.innerWidth || 1, 'y': window.innerHeight || 1 }, 'callbacks': [() => {}] },
       'max-fps': { 'value': 60, 'callbacks': [() => {}] },
       'mouse-delta': { 'value': { 'x': 0, 'y': 0 }, 'callbacks': [() => {}] },
+      'mouse-sensitivity': { 'value': 0.2, 'callbacks': [() => {}] },
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));
   }
+
+  // CONST which wont be changed during run time.
+  readonly X_axis = new Vector3(1, 0, 0);
+  readonly Y_axis = new Vector3(0, 1, 0);
+  readonly Z_axis = new Vector3(0, 0, 1);
 
   get(key: keyof global_variables_T) {
     return structuredClone(this.vars[key].value);
