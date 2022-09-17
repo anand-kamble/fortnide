@@ -19,7 +19,7 @@ const player_group_object = () => {
   });
 
   // Created a point around which the camera will revolve.
-  var geometry = new BoxBufferGeometry(0.2, 0.2, 0.2);
+  var geometry = new BoxBufferGeometry(0, 0, 0);
   var material = new MeshNormalMaterial();
   var revolve_point = new Mesh(geometry, material);
   revolve_point.position.y = 1.6;
@@ -31,8 +31,16 @@ const player_group_object = () => {
   const light = new PointLight(0xff0000, 1, 100);
   light.position.set(3, -3, 3);
   player_group.add(light);
+  player_group.add(revolve_point);
   player_group.rotateX(radian_from_degree(-90));
 
   animator.scene.add(player_group);
+
+  animator.add_renderer('player_group', () => {
+    // player_group.position.x += 0.01;
+    revolve_point.position.y = player_group.position.y + 1.6;
+    revolve_point.position.x = player_group.position.x - 0.2;
+    revolve_point.position.x = player_group.position.z;
+  });
 };
 export default player_group_object;

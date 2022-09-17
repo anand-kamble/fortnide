@@ -26,18 +26,15 @@ const set_third_person = (addTo: Object3D) => {
 
   scene.add(new AxesHelper());
 
-  const points = [];
-  points.push(new Vector3(-10, 0, 0));
-  points.push(new Vector3(0, 10, 0));
-  points.push(new Vector3(10, 0, 0));
   const container = new Group();
   container.add(camera);
   scene.add(container);
-  const cameraOrigin = new Vector3(addTo.position.x, addTo.position.y, addTo.position.z);
-  camera.lookAt(cameraOrigin);
   animator.add_renderer('third_person_camera', () => {
+    const cameraOrigin = new Vector3(addTo.position.x, addTo.position.y, addTo.position.z);
+    camera.lookAt(cameraOrigin);
     const { movementX, movementY } = { 'movementX': global_variables.get('mouse-delta').x, 'movementY': global_variables.get('mouse-delta').y };
     const offset = new Spherical().setFromVector3(camera.position.clone().sub(cameraOrigin));
+    offset.radius = 5;
     const phi = offset.phi - movementY * 0.02;
     offset.theta -= movementX * 0.02;
     offset.phi = Math.max(phi, 0.1);
