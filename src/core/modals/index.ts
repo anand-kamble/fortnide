@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export enum User_Types {
   'Guest' = 'guest',
   'Authenticated' = 'authenticated',
