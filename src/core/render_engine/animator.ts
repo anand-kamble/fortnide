@@ -1,4 +1,4 @@
-import { Clock, Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Clock, Object3D, PerspectiveCamera, Scene, VSMShadowMap, WebGLRenderer } from 'three';
 import global_variables from '../global_variables';
 
 class _animator {
@@ -8,7 +8,7 @@ class _animator {
   clock: Clock;
   renderers: {
     'id': string;
-    'render_function': (clock: Clock) => void;
+    'render_function': (clock_delta: number) => void;
   }[];
 
   constructor() {
@@ -22,6 +22,8 @@ class _animator {
       1000
     );
     this.scene_renderer = new WebGLRenderer();
+    this.scene_renderer.shadowMap.enabled = true;
+    this.scene_renderer.shadowMap.type = VSMShadowMap;
     this.scene_renderer.setSize(global_variables.get('window-dimensions').x, global_variables.get('window-dimensions').y);
     document.body.appendChild(this.scene_renderer.domElement);
     global_variables.addObserver('window-dimensions', (val: { 'x': number; 'y': number }) => {
@@ -31,7 +33,7 @@ class _animator {
     });
   }
 
-  add_renderer(id: string, render_function: (clock: Clock) => void) {
+  add_renderer(id: string, render_function: (clock_delta: number) => void) {
     this.renderers.push({
       'id': id,
       'render_function': render_function,
@@ -46,7 +48,10 @@ class _animator {
   }
 
   update() {
-    if (this.renderers.length) this.renderers.forEach(v => v.render_function(this.clock));
+    if (this.renderers.length) {
+      const clock_delta = this.clock.getDelta();
+      this.renderers.forEach(v => v.render_function(clock_delta));
+    }
   }
 
   set_scene(scene: Scene) {
