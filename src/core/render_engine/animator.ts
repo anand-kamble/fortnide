@@ -1,4 +1,4 @@
-import { Clock, Object3D, PerspectiveCamera, Scene, WebGLRenderer } from 'three';
+import { Clock, Object3D, PerspectiveCamera, Scene, VSMShadowMap, WebGLRenderer } from 'three';
 import global_variables from '../global_variables';
 
 class _animator {
@@ -22,6 +22,8 @@ class _animator {
       1000
     );
     this.scene_renderer = new WebGLRenderer();
+    this.scene_renderer.shadowMap.enabled = true;
+    this.scene_renderer.shadowMap.type = VSMShadowMap;
     this.scene_renderer.setSize(global_variables.get('window-dimensions').x, global_variables.get('window-dimensions').y);
     document.body.appendChild(this.scene_renderer.domElement);
     global_variables.addObserver('window-dimensions', (val: { 'x': number; 'y': number }) => {
