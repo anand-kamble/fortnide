@@ -19,13 +19,12 @@ const init_scene = () => {
   light.shadow.radius = 4;
   light.shadow.bias = -0.0005;
 
-  let gridHelper = new GridHelper(100, 100);
+  const gridHelper = new GridHelper(100, 100);
   {
     const skyColor = 0xb1e1ff; // light blue
     const groundColor = 0xb97a20; // brownish orange
     const intensity = 1;
     const light = new HemisphereLight(skyColor, groundColor, intensity);
-    light.castShadow = true;
     animator.scene.add(light);
   }
   const geometry = new PlaneGeometry(100, 100, 100, 100);

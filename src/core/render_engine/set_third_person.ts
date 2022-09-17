@@ -1,21 +1,19 @@
-import { Camera, Group, Object3D, Scene, Spherical, Vector3 } from 'three';
+import { Camera, Group, Object3D, Spherical, Vector3 } from 'three';
 import global_variables from '../global_variables';
 // import { radian_from_degree } from '../helpers';
 import animator from './animator';
 
 const set_third_person = (addTo: Object3D) => {
-  var camera: Camera, scene: Scene, mesh: Object3D, goal: Object3D, follow: Object3D;
-
-  camera = animator.camera;
+  const camera: Camera = animator.camera;
 
   camera.position.set(0, 3, -3);
 
-  scene = animator.scene;
+  const scene = animator.scene;
 
-  mesh = addTo;
+  const mesh: Object3D = addTo;
 
-  goal = new Object3D();
-  follow = new Object3D();
+  const goal = new Object3D();
+  const follow = new Object3D();
   mesh.add(follow);
 
   goal.add(camera);

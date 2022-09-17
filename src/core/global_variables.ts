@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/ban-types */
 import { Vector3 } from 'three';
 import { User_Types } from './modals';
 
@@ -26,6 +28,7 @@ class _global_variables {
     var_id: keyof global_variables_T;
     callbacks: Function[];
   }[];
+  private update: boolean;
   constructor() {
     this.vars = {
       'version': { 'value': 1, 'callbacks': [() => {}] },
@@ -36,6 +39,7 @@ class _global_variables {
       'mouse-sensitivity': { 'value': 0.2, 'callbacks': [() => {}] },
     } as global_variables_T;
     this.observers = Object.keys(this.vars).map(v => ({ 'var_id': v as keyof global_variables_T, 'callbacks': [() => {}] }));
+    this.update = false;
   }
 
   // CONST which wont be changed during run time.
@@ -48,6 +52,7 @@ class _global_variables {
   }
 
   set(key: keyof global_variables_T, value: unknown) {
+    if (!this.update) return;
     if (typeof this.vars[key] === typeof value) {
       this.vars[key].value = value as never;
       this.vars[key].callbacks.forEach(cb => cb(value));
@@ -58,6 +63,11 @@ class _global_variables {
 
   addObserver(key: keyof global_variables_T, callback: Function) {
     this.vars[key].callbacks.push(callback);
+  }
+
+  allow_update(value?: boolean) {
+    if (value !== undefined) this.update = value;
+    return this.update;
   }
 }
 const global_variables = new _global_variables();

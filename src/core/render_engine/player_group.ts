@@ -1,9 +1,7 @@
-//@ts-nocheck
-
 import animator from './animator';
 import glft_data from '../media/models/Xbot.glb';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight, Vector3 } from 'three';
+import { AnimationAction, AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight, Vector3 } from 'three';
 import { radian_from_degree } from '../helpers';
 import set_third_person from './set_third_person';
 import global_variables from '../global_variables';
@@ -11,27 +9,27 @@ import global_variables from '../global_variables';
 const player_group_object = () => {
   const loader = new GLTFLoader();
   const player_group = new Group();
-  let player_model,
+  let player_model: Group,
     animations,
-    mixer,
+    mixer: AnimationMixer,
     numAnimations = 0,
-    allActions = [],
-    camera = animator.camera,
     model_loaded = false,
-    tempCameraVector = new Vector3(),
-    tempModelVector = new Vector3(),
     movingForward = false;
-  const baseActions = {
+  const camera = animator.camera;
+  const tempCameraVector = new Vector3();
+  const tempModelVector = new Vector3();
+  const allActions: AnimationAction[] = [];
+  const baseActions: { [k: string]: { [k: string]: AnimationAction | number } } = {
     'idle': { 'weight': 1 },
     'walk': { 'weight': 0 },
     'run': { 'weight': 0 },
   };
-  function setWeight(action, weight) {
+  function setWeight(action: AnimationAction, weight: AnimationAction | number) {
     action.enabled = true;
     action.setEffectiveTimeScale(1);
-    action.setEffectiveWeight(weight);
+    action.setEffectiveWeight(weight as number);
   }
-  function activateAction(action) {
+  function activateAction(action: AnimationAction) {
     const clip = action.getClip();
     const settings = baseActions[clip.name];
     setWeight(action, settings.weight);
@@ -50,16 +48,16 @@ const player_group_object = () => {
     gltf.cameras; // Array<Camera>
     gltf.asset; // Object
     gltf.scene.traverse(function (child) {
-      if (child.isMesh) {
+      if ((child as Mesh).isMesh) {
         child.castShadow = true;
       }
     });
 
     mixer = new AnimationMixer(player_model);
     model_loaded = true;
-    let a = animations.length;
+    const a = animations.length;
     for (let i = 0; i < a; ++i) {
-      let clip = animations[i];
+      const clip = animations[i];
       const name = clip.name;
       if (baseActions[name]) {
         const action = mixer.clipAction(clip);
@@ -73,30 +71,30 @@ const player_group_object = () => {
 
   window.addEventListener('keydown', e => {
     const { keyCode } = e;
-    if (keyCode === 87 || keyCode === 38) {
+    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
       baseActions.run.weight = 5;
-      activateAction(baseActions.run.action);
-      activateAction(baseActions.idle.action);
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
       movingForward = true;
     }
   });
 
   window.addEventListener('keyup', e => {
     const { keyCode } = e;
-    if (keyCode === 87 || keyCode === 38) {
+    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
       baseActions.run.weight = 0;
-      activateAction(baseActions.run.action);
-      activateAction(baseActions.idle.action);
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
       movingForward = false;
     }
   });
 
   // Created a point around which the camera will revolve.
-  var geometry = new BoxBufferGeometry(0, 0, 0);
-  var material = new MeshNormalMaterial();
-  var revolve_point = new Mesh(geometry, material);
+  const geometry = new BoxBufferGeometry(0, 0, 0);
+  const material = new MeshNormalMaterial();
+  const revolve_point = new Mesh(geometry, material);
   revolve_point.position.y = 1.6;
   revolve_point.position.x = -0.2;
 
@@ -119,7 +117,7 @@ const player_group_object = () => {
         const settings = baseActions[clip.name];
         settings.weight = action.getEffectiveWeight();
       }
-      if (movingForward) {
+      if (movingForward && global_variables.allow_update()) {
         // player_group.position.z += 0.1;
 
         camera.getWorldDirection(tempCameraVector);
