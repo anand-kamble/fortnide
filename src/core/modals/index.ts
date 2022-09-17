@@ -4,6 +4,6 @@ export enum User_Types {
 }
 
 //TODO : COMPLETE THIS
-interface create_interface<object_T> {
-  [key: string]: any;
+export interface create_interface<object_T> {
+  [key: string]: object_T;
 }
