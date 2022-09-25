@@ -8,4 +8,14 @@ const radian_from_degree: (deg: number) => number = deg => {
   return (deg * Math.PI) / 180;
 };
 
-export { get_element, radian_from_degree };
+const importShader = (path: string) => {
+  return new Promise<string>(res => {
+    fetch(path)
+      .then(r => r.text())
+      .then(text => {
+        res(text);
+      });
+  });
+};
+
+export { get_element, radian_from_degree, importShader };

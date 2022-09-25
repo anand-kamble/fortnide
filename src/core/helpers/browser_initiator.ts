@@ -20,9 +20,9 @@ const brower_initiator = () => {
   });
 
   // Temp : Locking mouse pointer on click
-  // document.body.addEventListener('click', () => {
-  //   document.body.requestPointerLock();
-  // });
+  document.body.addEventListener('click', () => {
+    document.body.requestPointerLock();
+  });
 };
 
 export default brower_initiator;
