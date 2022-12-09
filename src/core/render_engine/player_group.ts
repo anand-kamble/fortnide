@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { AnimationAction, AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNormalMaterial, PointLight, Vector3 } from 'three';
 import { radian_from_degree } from '../helpers';
 import set_third_person from './set_third_person';
-import global_variables from '../global_variables';
+import global_variables from '../helpers/global_variables';
 
 const player_group_object = () => {
   const loader = new GLTFLoader();
@@ -24,19 +24,19 @@ const player_group_object = () => {
     'walk': { 'weight': 0 },
     'run': { 'weight': 0 },
   };
-  function setWeight(action: AnimationAction, weight: AnimationAction | number) {
+  const setWeight = (action: AnimationAction, weight: AnimationAction | number) => {
     action.enabled = true;
     action.setEffectiveTimeScale(1);
     action.setEffectiveWeight(weight as number);
-  }
-  function activateAction(action: AnimationAction) {
+  };
+  const activateAction = (action: AnimationAction) => {
     const clip = action.getClip();
     const settings = baseActions[clip.name];
     setWeight(action, settings.weight);
     action.play();
-  }
+  };
 
-  loader.load(glft_data, function (gltf) {
+  loader.load(glft_data, gltf => {
     gltf.scene.rotateX(radian_from_degree(90));
     player_model = gltf.scene;
     player_model.castShadow = true;

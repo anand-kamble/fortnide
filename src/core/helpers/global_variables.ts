@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/ban-types */
 import { Vector3 } from 'three';
-import { User_Types } from './modals';
+import { User_Types } from '../modals';
 
 interface _var_structure<T> {
   value: T;

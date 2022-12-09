@@ -1,5 +1,5 @@
 import { Camera, Group, Object3D, Spherical, Vector3 } from 'three';
-import global_variables from '../global_variables';
+import global_variables from '../helpers/global_variables';
 // import { radian_from_degree } from '../helpers';
 import animator from './animator';
 

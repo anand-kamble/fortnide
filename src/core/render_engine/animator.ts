@@ -1,5 +1,5 @@
 import { Clock, Object3D, PerspectiveCamera, Scene, VSMShadowMap, WebGLRenderer } from 'three';
-import global_variables from '../global_variables';
+import global_variables from '../helpers/global_variables';
 
 class _animator {
   scene: Scene;

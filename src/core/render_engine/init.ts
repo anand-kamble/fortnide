@@ -78,7 +78,7 @@ const init_scene = async () => {
   const cube = new Mesh(box_geometry, box_material);
   cube.position.x = 0;
   cube.position.y = 1;
-  animator.scene.add(cube);
+  // animator.scene.add(cube);
   animator.scene.add(light);
   animator.scene.add(gridHelper);
   animator.scene.fog = new Fog('white', 0, 100);

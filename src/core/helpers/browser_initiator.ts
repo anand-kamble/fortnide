@@ -1,4 +1,4 @@
-import global_variables from '../global_variables';
+import global_variables from './global_variables';
 
 const brower_initiator = () => {
   document.documentElement.setAttribute('lang', navigator.language);
