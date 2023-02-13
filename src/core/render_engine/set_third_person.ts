@@ -25,13 +25,19 @@ const set_third_person = (addTo: Object3D) => {
   animator.add_renderer('third_person_camera', clock => {
     const cameraOrigin = new Vector3(addTo.position.x, addTo.position.y, addTo.position.z);
     camera.lookAt(cameraOrigin);
+
     const { movementX, movementY } = { 'movementX': global_variables.get('mouse-delta').x, 'movementY': global_variables.get('mouse-delta').y };
     const offset = new Spherical().setFromVector3(camera.position.clone().sub(cameraOrigin));
     offset.radius = 5;
+
     const phi = offset.phi - movementY * global_variables.get('mouse-sensitivity') * clock;
     const theta = movementX * global_variables.get('mouse-sensitivity') * clock;
-    offset.theta -= theta;
-    offset.phi = Math.max(phi, 0.1);
+
+    if (movementX || movementY) {
+      offset.theta -= theta;
+      offset.phi = Math.max(phi, 0.1);
+    }
+
     camera.position.copy(cameraOrigin.clone().add(new Vector3().setFromSpherical(offset)));
     camera.lookAt(container.position.clone().add(cameraOrigin));
   });

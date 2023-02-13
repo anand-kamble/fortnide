@@ -4,8 +4,8 @@ import './index.css';
 
 function Render() {
   const [state, setState] = useState({
-    'warning_accepted': false,
-    'started': false,
+    'warning_accepted': true,
+    'started': true,
   });
   return (
     <>
