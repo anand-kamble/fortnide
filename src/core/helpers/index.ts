@@ -18,4 +18,9 @@ const importShader = (path: string) => {
   });
 };
 
-export { get_element, radian_from_degree, importShader };
+const random_id = () => {
+  const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4();
+};
+
+export { get_element, radian_from_degree, importShader, random_id };
