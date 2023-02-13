@@ -46,6 +46,9 @@ class _global_variables {
   readonly X_axis = new Vector3(1, 0, 0);
   readonly Y_axis = new Vector3(0, 1, 0);
   readonly Z_axis = new Vector3(0, 0, 1);
+  readonly Negative_X_axis = new Vector3(-1, 0, 0);
+  readonly Negative_Y_axis = new Vector3(0, -1, 0);
+  readonly Negative_Z_axis = new Vector3(0, 0, -1);
 
   get(key: keyof global_variables_T) {
     return structuredClone(this.vars[key].value);
