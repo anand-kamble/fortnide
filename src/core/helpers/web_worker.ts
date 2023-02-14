@@ -1,13 +1,20 @@
 import Log from '../../Logger';
+
 interface worker_data {
   id: string;
   url: string;
   worker: Worker;
 }
+
 class _web_workers {
   workers: worker_data[];
   support: boolean;
-  [k: string]: Worker | typeof this[keyof this];
+  [x: string]:
+    | Worker
+    | boolean
+    | worker_data[]
+    | (() => void)
+    | ((id: string, url: string, options?: WorkerOptions | undefined) => Worker | undefined);
 
   constructor() {
     this.workers = [];
@@ -21,7 +28,7 @@ class _web_workers {
     }
   }
 
-  add_worker(id: string, url: string, options: WorkerOptions) {
+  add_worker(id: string, url: string, options?: WorkerOptions) {
     if (id.includes(' ')) throw new Error('worker id cannot include spaces.');
     if (this.support) {
       const w = new Worker(url, options);
