@@ -40,6 +40,10 @@ class _web_workers {
   list_workers() {
     return this.workers.map(v => ({ 'id': v.id, 'url': v.url }));
   }
+
+  terminate_all() {
+    this.workers.forEach(w => w.worker.terminate());
+  }
 }
 
 const web_workers = new _web_workers();
