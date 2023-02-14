@@ -12,6 +12,12 @@ class logger {
     // eslint-disable-next-line no-console
     console.warn(`[${fromMsg}] : ${msg}`);
   }
+
+  error(from: LogFor, msg: string) {
+    const fromMsg = from === 'CORE' ? 'CORE' : 'UI';
+    // eslint-disable-next-line no-console
+    console.error(`[${fromMsg}] : ${msg}`);
+  }
 }
 const Log = new logger();
 
