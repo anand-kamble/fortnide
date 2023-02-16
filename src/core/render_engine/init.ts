@@ -50,18 +50,6 @@ const init_scene = async () => {
   plane.rotateX(degToRad(90));
   animator.scene.add(plane);
 
-  // new Array(100).fill(0).forEach((_, i) => {
-  //   const geometry = new BoxGeometry(1, 1, 1);
-  //   const material = new MeshPhongMaterial({ 'color': 0xffffff });
-  //   const cube = new Mesh(geometry, material);
-  //   cube.castShadow = true;
-  //   cube.receiveShadow = true;
-  //   cube.position.x = Math.random() * (i - 50);
-  //   cube.position.z = Math.random() * (i - 50);
-
-  //   animator.scene.add(cube);
-  // });
-
   const fragment = await importShader(f_shader);
   const vertex = await importShader(v_shader);
   const box_geometry = new BoxGeometry(20, 20, 20, 10, 10, 10);
