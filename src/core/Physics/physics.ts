@@ -12,14 +12,17 @@ interface ObjectProperties {
 class _physics {
   g_acceleration: number;
   objects: ObjectProperties[];
-  wind_vector: Vector3;
-  water_vector: Vector3;
   update_frequency: number;
   update_interval_id: number;
+  water_vector: Vector3;
+
+  private wind_vector: Vector3;
+  private ground_objects: Object3D[];
 
   constructor() {
     this.g_acceleration = 9.80665;
     this.objects = [];
+    this.ground_objects = [];
     this.wind_vector = new Vector3(0, 0, 0);
     this.water_vector = new Vector3(0, 0, 0);
   }
@@ -43,12 +46,17 @@ class _physics {
     this.restart();
   }
 
+  set_wind_vector(direction: Vector3) {
+    this.wind_vector = direction.clone();
+  }
+
   addObject(data: ObjectProperties) {
     const objectId = data.object.id;
     if (!this.objects.find(v => v.object.id === objectId)) {
       if (data.g_override === undefined) data.g_override = 0;
       if (data.water_factor === undefined) data.water_factor = 0;
       if (data.wind_factor === undefined) data.wind_factor = 0;
+      if (data.effects.includes('ground')) this.ground_objects.push(data.object);
       this.objects.push(data);
     }
   }
@@ -56,7 +64,7 @@ class _physics {
   private updateWorld(clock: number) {
     this.objects.forEach(obj => {
       const delta = new Vector3(0, 0, 0);
-      if (obj.effects.includes('gravity') && this.getGroundDistance(obj.object) > 0) {
+      if (this.getGroundDistance(obj.object) > 0) {
         delta.setY(delta.y - this.g_acceleration * clock);
       }
       if (obj.effects.includes('wind')) {
@@ -73,10 +81,8 @@ class _physics {
   }
 
   private getGroundDistance(obj: Object3D) {
-    const ray = new Raycaster(obj.position.clone(), global_variables.Negative_Y_axis);
-    const result = ray.intersectObjects(
-      this.objects.map(v => (v.effects.includes('ground') ? v.object : null)).filter(v => v !== null) as Object3D[]
-    );
+    const ray = new Raycaster(obj.position, global_variables.Negative_Y_axis);
+    const result = ray.intersectObjects(this.ground_objects);
     return result[0].distance;
   }
 }
