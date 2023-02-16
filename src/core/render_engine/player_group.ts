@@ -5,6 +5,8 @@ import { AnimationAction, AnimationMixer, BoxBufferGeometry, Group, Mesh, MeshNo
 import { radian_from_degree } from '../helpers';
 import set_third_person from './set_third_person';
 import global_variables from '../helpers/global_variables';
+import browser_bridge from '../helpers/browser_initiator';
+import input_keys from '../input_keys';
 
 const player_group_object = () => {
   const loader = new GLTFLoader();
@@ -69,20 +71,20 @@ const player_group_object = () => {
     }
   });
 
-  window.addEventListener('keydown', e => {
-    const { keyCode } = e;
-    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
+  browser_bridge.addCallback('keydown', 'player_movement_start', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-forward') && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
-      baseActions.run.weight = 5;
+      baseActions.run.weight = 1;
       activateAction(baseActions.run.action as AnimationAction);
       activateAction(baseActions.idle.action as AnimationAction);
       movingForward = true;
     }
   });
 
-  window.addEventListener('keyup', e => {
-    const { keyCode } = e;
-    if ((keyCode === 87 || keyCode === 38) && global_variables.allow_update()) {
+  browser_bridge.addCallback('keyup', 'player_movement_end', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-forward') && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
       baseActions.run.weight = 0;
       activateAction(baseActions.run.action as AnimationAction);

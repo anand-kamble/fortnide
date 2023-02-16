@@ -1,37 +1,43 @@
 import global_variables from './global_variables';
 import Log from '../../Logger/index';
 
-type Listeners = 'mousemove' | 'resize' | 'click';
-type cbStructure = { id: string; cb: (e: MouseEvent | UIEvent) => void };
+interface cbStructure {
+  id: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  cb: Function;
+}
 class _browser_bridge {
-  mousemove: cbStructure[];
-  resize: cbStructure[];
-  click: cbStructure[];
+  private triggers: {
+    [x: string]: cbStructure[];
+  };
+  private active_triggers: string[];
+
   constructor() {
-    this.mousemove = [];
-    this.resize = [];
-    this.click = [];
+    this.triggers = {};
     this.addListeners();
+    this.active_triggers = [];
   }
 
-  addCallback(callbackFor: Listeners, id: string, callback: cbStructure['cb']) {
+  addCallback<K extends keyof WindowEventMap>(callbackFor: K, id: string, callback: (e: WindowEventMap[K]) => void) {
     try {
-      this[callbackFor].push({ 'id': id, 'cb': callback });
+      this.triggers[callbackFor] = [];
+      this.triggers[callbackFor].push({ 'id': id, 'cb': callback });
+      this.addListeners();
     } catch (error) {
       Log.warn('CORE', `[browser_bridge] : Failed to add callback with id : ${id}`);
     }
   }
 
-  removeCallback(callbackFor: Listeners, id: string) {
+  removeCallback(callbackFor: keyof WindowEventMap, id: string) {
     try {
       let indexOfCallback = -1;
-      this[callbackFor].forEach((cb, i) => {
+      this.triggers[callbackFor].forEach((cb, i) => {
         if (cb.id === id) {
           indexOfCallback = i;
         }
       });
       if (indexOfCallback > -1) {
-        this[callbackFor].splice(indexOfCallback, 1);
+        this.triggers[callbackFor].splice(indexOfCallback, 1);
       }
     } catch (error) {
       Log.warn('CORE', `[browser_bridge] : Failed to remove callback with id : ${id}`);
@@ -39,19 +45,26 @@ class _browser_bridge {
   }
 
   addListeners() {
-    const typesOfListener = Object.keys(this) as unknown as Array<Listeners>;
+    const typesOfListener = Object.keys(this.triggers) as unknown as Array<keyof WindowEventMap>;
     typesOfListener.forEach(type => {
-      window.addEventListener(type, e => {
-        this[type].map(v => {
-          v.cb(e);
-        });
-      });
+      if (!this.active_triggers.includes(type)) {
+        try {
+          window.addEventListener(type, e => {
+            this.triggers[type].map(v => {
+              v.cb(e);
+            });
+          });
+          this.active_triggers.push(type);
+        } catch (e) {
+          Log.warn('CORE', `[browser_bridge] : Failed to add listener of type : ${type}`);
+        }
+      }
     });
   }
 }
 const browser_bridge = new _browser_bridge();
 
-const brower_initiator = () => {
+export const brower_initiator = () => {
   document.documentElement.setAttribute('lang', navigator.language);
   global_variables.set('window-dimensions', { 'x': window.innerWidth, 'y': window.innerHeight });
 
@@ -76,5 +89,4 @@ const brower_initiator = () => {
   });
 };
 
-export { browser_bridge };
-export default brower_initiator;
+export default browser_bridge;

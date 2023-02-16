@@ -22,7 +22,7 @@ interface global_variables_T {
   }>;
 }
 
-class _global_variables {
+export class _global_variables {
   private vars: global_variables_T;
   private observers: {
     var_id: keyof global_variables_T;
