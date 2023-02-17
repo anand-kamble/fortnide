@@ -11,20 +11,21 @@ import input_keys from '../input_keys';
 const player_group_object = () => {
   const loader = new GLTFLoader();
   const player_group = new Group();
+  const camera = animator.camera;
+  const tempCameraVector = new Vector3();
+  const tempModelVector = new Vector3();
+  const allActions: AnimationAction[] = [];
   let player_model: Group,
     animations,
     mixer: AnimationMixer,
     numAnimations = 0,
     model_loaded = false,
     movingForward = false;
-  const camera = animator.camera;
-  const tempCameraVector = new Vector3();
-  const tempModelVector = new Vector3();
-  const allActions: AnimationAction[] = [];
   const baseActions: { [k: string]: { [k: string]: AnimationAction | number } } = {
     'idle': { 'weight': 1 },
     'walk': { 'weight': 0 },
     'run': { 'weight': 0 },
+    'sneak_pose': { 'weight': 0 },
   };
   const setWeight = (action: AnimationAction, weight: AnimationAction | number) => {
     action.enabled = true;
@@ -61,13 +62,12 @@ const player_group_object = () => {
     for (let i = 0; i < a; ++i) {
       const clip = animations[i];
       const name = clip.name;
-      if (baseActions[name]) {
-        const action = mixer.clipAction(clip);
-        activateAction(action);
-        baseActions[name].action = action;
-        allActions.push(action);
-        numAnimations += 1;
-      }
+      baseActions[name] = {};
+      const action = mixer.clipAction(clip);
+      activateAction(action);
+      baseActions[name].action = action;
+      allActions.push(action);
+      numAnimations += 1;
     }
   });
 
@@ -97,7 +97,7 @@ const player_group_object = () => {
     const { code } = e;
     if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
-      baseActions.run.weight = 1;
+      baseActions.sneak_pose.weight = 1;
       activateAction(baseActions.run.action as AnimationAction);
       activateAction(baseActions.idle.action as AnimationAction);
       movingForward = true;
@@ -108,7 +108,54 @@ const player_group_object = () => {
     const { code } = e;
     if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
-      baseActions.run.weight = 0;
+      baseActions.sneak_pose.weight = 0;
+
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = false;
+    }
+  });
+
+  browser_bridge.addCallback('keydown', 'player_movement_start_right', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-right') && global_variables.allow_update()) {
+      baseActions.idle.weight = 0;
+      baseActions.sneak_pose.weight = 1;
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = true;
+    }
+  });
+
+  browser_bridge.addCallback('keyup', 'player_movement_end_right', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-right') && global_variables.allow_update()) {
+      baseActions.idle.weight = 1;
+      baseActions.sneak_pose.weight = 0;
+
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = false;
+    }
+  });
+
+  browser_bridge.addCallback('keydown', 'player_movement_start_left', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-left') && global_variables.allow_update()) {
+      baseActions.idle.weight = 0;
+      baseActions.sneak_pose.weight = 1;
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = true;
+    }
+  });
+
+  browser_bridge.addCallback('keyup', 'player_movement_end_left', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-left') && global_variables.allow_update()) {
+      baseActions.idle.weight = 1;
+      baseActions.sneak_pose.weight = 0;
+
       activateAction(baseActions.run.action as AnimationAction);
       activateAction(baseActions.idle.action as AnimationAction);
       movingForward = false;
@@ -174,7 +221,6 @@ const player_group_object = () => {
       revolve_point.position.y = player_group.position.y + 1.6;
       revolve_point.position.x = player_group.position.x - 0.2;
       revolve_point.position.z = player_group.position.z;
-
       mixer.update(clock);
     }
   });
