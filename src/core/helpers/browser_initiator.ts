@@ -20,7 +20,7 @@ class _browser_bridge {
 
   addCallback<K extends keyof WindowEventMap>(callbackFor: K, id: string, callback: (e: WindowEventMap[K]) => void) {
     try {
-      this.triggers[callbackFor] = [];
+      if (this.triggers[callbackFor] === undefined) this.triggers[callbackFor] = [];
       this.triggers[callbackFor].push({ 'id': id, 'cb': callback });
       this.addListeners();
     } catch (error) {
@@ -50,7 +50,7 @@ class _browser_bridge {
       if (!this.active_triggers.includes(type)) {
         try {
           window.addEventListener(type, e => {
-            this.triggers[type].map(v => {
+            this.triggers[type].forEach(v => {
               v.cb(e);
             });
           });

@@ -71,7 +71,7 @@ const player_group_object = () => {
     }
   });
 
-  browser_bridge.addCallback('keydown', 'player_movement_start', e => {
+  browser_bridge.addCallback('keydown', 'player_movement_start_forward', e => {
     const { code } = e;
     if (code === input_keys.getKey('moment-forward') && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
@@ -82,9 +82,31 @@ const player_group_object = () => {
     }
   });
 
-  browser_bridge.addCallback('keyup', 'player_movement_end', e => {
+  browser_bridge.addCallback('keyup', 'player_movement_end_forward', e => {
     const { code } = e;
     if (code === input_keys.getKey('moment-forward') && global_variables.allow_update()) {
+      baseActions.idle.weight = 1;
+      baseActions.run.weight = 0;
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = false;
+    }
+  });
+
+  browser_bridge.addCallback('keydown', 'player_movement_start_backward', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
+      baseActions.idle.weight = 0;
+      baseActions.run.weight = 1;
+      activateAction(baseActions.run.action as AnimationAction);
+      activateAction(baseActions.idle.action as AnimationAction);
+      movingForward = true;
+    }
+  });
+
+  browser_bridge.addCallback('keyup', 'player_movement_end_backward', e => {
+    const { code } = e;
+    if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
       baseActions.run.weight = 0;
       activateAction(baseActions.run.action as AnimationAction);
