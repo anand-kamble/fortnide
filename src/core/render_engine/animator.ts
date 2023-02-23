@@ -40,7 +40,7 @@ class _animator {
     });
   }
 
-  remove(id: string) {
+  remove_renderer(id: string) {
     this.renderers.splice(
       this.renderers.findIndex(v => v.id === id),
       1

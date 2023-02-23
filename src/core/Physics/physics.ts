@@ -48,6 +48,7 @@ class _physics {
 
   terminate() {
     this.update_interval_id ? clearInterval(this.update_interval_id) : null;
+    animator.remove_renderer('physics');
     this.initialized = false;
   }
 
@@ -109,12 +110,13 @@ class _physics {
         /* Uncomment the next line to visualize Raycaster */
         // animator.scene.add(new ArrowHelper(ray.ray.direction, ray.ray.origin, 300, 0xff0000));
         const result = ray.intersectObjects(this.ground_objects, false);
-        return result[0]?.distance || 0;
+        return result[0].distance || 0;
       } else {
         return 1;
       }
     } catch (error) {
       Log.error('CORE', `[Physics] > getGroundDistance\n ${error}`);
+      this.terminate();
       return 0;
     }
   }
