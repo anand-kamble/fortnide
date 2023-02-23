@@ -7,14 +7,9 @@ interface worker_data {
 }
 
 class _web_workers {
-  workers: worker_data[];
+  private workers: worker_data[];
   support: boolean;
-  [x: string]:
-    | Worker
-    | boolean
-    | worker_data[]
-    | (() => void)
-    | ((id: string, url: string, options?: WorkerOptions | undefined) => Worker | undefined);
+  worker: { [x: string]: Worker };
 
   constructor() {
     this.workers = [];
@@ -29,7 +24,6 @@ class _web_workers {
   }
 
   add_worker(id: string, url: string, options?: WorkerOptions) {
-    if (id.includes(' ')) throw new Error('worker id cannot include spaces.');
     if (this.support) {
       const w = new Worker(url, options);
       this.workers.push({
@@ -37,7 +31,7 @@ class _web_workers {
         'url': url,
         'worker': w,
       });
-      this[id] = w;
+      this.worker[id] = w;
       return w;
     } else {
       Log.error('CORE', 'Web-workers not supported.');

@@ -7,6 +7,7 @@ import set_third_person from './set_third_person';
 import global_variables from '../helpers/global_variables';
 import browser_bridge from '../helpers/browser_initiator';
 import input_keys from '../input_keys';
+import physics from '../Physics/physics';
 
 const player_group_object = () => {
   const loader = new GLTFLoader();
@@ -45,6 +46,7 @@ const player_group_object = () => {
     player_model.castShadow = true;
     player_model.receiveShadow = true;
     player_group.add(player_model);
+    player_group.position.y = 10;
     animations = gltf.animations; // Array<AnimationClip>
     gltf.scene; // Group
     gltf.scenes; // Array<Group>
@@ -69,6 +71,7 @@ const player_group_object = () => {
       allActions.push(action);
       numAnimations += 1;
     }
+    link_with_physics();
   });
 
   browser_bridge.addCallback('keydown', 'player_movement_start_forward', e => {
@@ -161,6 +164,16 @@ const player_group_object = () => {
       movingForward = false;
     }
   });
+
+  /**
+   * Link with physics engine
+   */
+  const link_with_physics = () => {
+    physics.addObject({
+      'object': player_group,
+      'effects': ['gravity'],
+    });
+  };
 
   // Created a point around which the camera will revolve.
   const geometry = new BoxBufferGeometry(0, 0, 0);
