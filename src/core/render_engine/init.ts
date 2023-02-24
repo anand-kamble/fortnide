@@ -15,7 +15,7 @@ import animator from './animator';
 import f_shader from '../shaders/test_box/f_shader.glsl';
 import v_shader from '../shaders/test_box/v_shader.glsl';
 import { importShader } from '../helpers';
-import physics from '../Physics/physics';
+import physics from '../Physics';
 
 const init_scene = async () => {
   let time = 0.0;

@@ -1,10 +1,7 @@
-import web_workers from '../helpers/web_worker';
+import { physics_type } from './modals';
+import _physics from './physics';
+import * as METHODS from './methods';
 
-web_workers.add_worker('physics', import.meta.url);
+const physics = { ...(new _physics() as physics_type), ...METHODS };
 
-if (web_workers.worker.physics) {
-  web_workers.worker.physics.onmessage = e => {
-    e;
-    // Process event.
-  };
-}
+export default physics;

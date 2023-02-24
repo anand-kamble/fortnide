@@ -7,7 +7,7 @@ import set_third_person from './set_third_person';
 import global_variables from '../helpers/global_variables';
 import browser_bridge from '../helpers/browser_initiator';
 import input_keys from '../input_keys';
-import physics from '../Physics/physics';
+import physics from '../Physics';
 
 const player_group_object = () => {
   const loader = new GLTFLoader();
