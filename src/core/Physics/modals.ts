@@ -8,6 +8,8 @@ export interface ObjectProperties {
   g_override?: number;
   wind_factor?: number;
   water_factor?: number;
+  mass?: number;
+  fixed_position?: boolean;
 }
 
 export type physics_type = _physics & typeof METHODS;
