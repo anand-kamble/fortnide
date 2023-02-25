@@ -1,7 +1,6 @@
-import { physics_type } from './modals';
-import _physics from './physics';
+import _physics_world from './physics';
 import * as METHODS from './methods';
 
-const physics = { ...(new _physics() as physics_type), ...METHODS };
+const physics = { ...new _physics_world(), ...METHODS };
 
 export default physics;

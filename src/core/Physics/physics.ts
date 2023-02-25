@@ -1,7 +1,7 @@
-import { Object3D, Vector3 } from 'three';
+import { Box3, Object3D, Vector3 } from 'three';
 import { ObjectProperties } from './modals';
 
-class _physics {
+class _physics_world {
   g_acceleration: number;
   objects: ObjectProperties[];
   update_frequency: number;
@@ -12,6 +12,8 @@ class _physics {
   initialized: boolean;
   interval_in_ms: number;
   interval_in_seconds: number;
+
+  bounding_boxes: Box3[];
 
   constructor() {
     this.g_acceleration = 9.80665;
@@ -24,7 +26,8 @@ class _physics {
     this.update_frequency = 120;
     this.interval_in_ms = 1000 / this.update_frequency;
     this.interval_in_seconds = 1 / this.update_frequency;
+    this.bounding_boxes = [];
   }
 }
 
-export default _physics;
+export default _physics_world;

@@ -1,8 +1,8 @@
 import { Object3D } from 'three';
-import * as METHODS from './methods';
-import _physics from './physics';
+import physics from '.';
 
 export interface ObjectProperties {
+  [x: string]: ObjectProperties[keyof ObjectProperties];
   object: Object3D;
   effects: ('gravity' | 'wind' | 'water' | 'ground')[];
   g_override?: number;
@@ -10,6 +10,7 @@ export interface ObjectProperties {
   water_factor?: number;
   mass?: number;
   fixed_position?: boolean;
+  collision?: boolean;
 }
 
-export type physics_type = _physics & typeof METHODS;
+export type physics_type = typeof physics;
