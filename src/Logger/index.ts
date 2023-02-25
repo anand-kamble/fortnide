@@ -1,22 +1,17 @@
-type LogFor = 'CORE' | 'UI';
+/* eslint-disable no-console */
+type LogFor = 'CORE' | 'UI' | 'PHYSICS_ENGINE';
 
 class logger {
   log(from: LogFor, msg: string) {
-    const fromMsg = from === 'CORE' ? 'CORE' : 'UI';
-    // eslint-disable-next-line no-console
-    console.log(`[${fromMsg}] : ${msg}`);
+    console.log(`[${from}] : ${msg}`);
   }
 
   warn(from: LogFor, msg: string) {
-    const fromMsg = from === 'CORE' ? 'CORE' : 'UI';
-    // eslint-disable-next-line no-console
-    console.warn(`[${fromMsg}] : ${msg}`);
+    console.warn(`[${from}] : ${msg}`);
   }
 
   error(from: LogFor, msg: string) {
-    const fromMsg = from === 'CORE' ? 'CORE' : 'UI';
-    // eslint-disable-next-line no-console
-    console.error(`[${fromMsg}] : ${msg}`);
+    console.error(`[${from}] : ${msg}`);
   }
 }
 const Log = new logger();
