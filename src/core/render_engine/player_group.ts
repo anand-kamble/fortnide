@@ -68,6 +68,7 @@ const player_group_object = () => {
       const action = mixer.clipAction(clip);
       activateAction(action);
       baseActions[name].action = action;
+      baseActions[name].weight = 0;
       allActions.push(action);
       numAnimations += 1;
     }

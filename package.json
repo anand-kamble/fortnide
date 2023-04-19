@@ -16,6 +16,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/three": "^0.143.0",
+    "@types/uuid": "^9.0.1",
     "howler": "^2.2.3",
     "husky": "^8.0.1",
     "jest": "^29.0.3",
@@ -24,6 +25,7 @@
     "react-scripts": "5.0.1",
     "three": "^0.143.0",
     "typescript": "^4.7.4",
+    "uuid": "^9.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
