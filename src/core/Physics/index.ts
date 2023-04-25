@@ -6,7 +6,7 @@ import browser_bridge from '../helpers/browser_initiator';
 const physics = { ...new _physics_world(), ...METHODS };
 
 browser_bridge.addCallback('mousedown', 'FIREE', () => {
-  console.log(new Projectile().fire().path());
+  console.log(new Projectile().launch().path());
 });
 
 export default physics;
