@@ -12,7 +12,7 @@ class Projectile {
     this.raycaster = new Raycaster();
   }
 
-  fire(x?: number, y?: number) {
+  launch(x?: number, y?: number) {
     this.initialPoint = animator.camera.position.clone();
     this.raycaster.setFromCamera({ 'x': x || 0, 'y': y || 0 }, animator.camera);
     const intersects = this.raycaster.intersectObjects(animator.scene.children);
