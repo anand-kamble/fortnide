@@ -11,7 +11,7 @@ A middle which is used to add and remove listeners to the browser events, this a
 
 This is used to store and modify the variable required throughout the core, and also allows us to add listeners to the variable which is very useful when multiple parts of the projects are depended on a same variable.
 
-Here are some example Implementation  
+Here are some example Implementation :  
 [Updating a global variable](./browser_initiator.ts#L70)  
 [Using a global variable](../render_engine/animator.ts#L20)  
 [Adding a observer for global variable](../render_engine/animator.ts#L29)

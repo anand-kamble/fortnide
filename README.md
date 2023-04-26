@@ -10,6 +10,6 @@ The project is divided into multiple parts including
 
 [Core](./src/core/README.md)
 
-Logger
+[Logger](./src/Logger/)
 
-UI
+[UI](./src/UI/)
