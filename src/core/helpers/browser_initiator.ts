@@ -62,6 +62,7 @@ class _browser_bridge {
     });
   }
 }
+
 const browser_bridge = new _browser_bridge();
 
 export const brower_initiator = () => {
