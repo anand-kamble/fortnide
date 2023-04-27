@@ -14,7 +14,7 @@ export default function updateWorld(this: physics_type) {
       if (obj.effects.includes('water')) {
         delta.add(this.water_vector.multiplyScalar(this.interval_in_seconds));
       }
-      obj.object.position.set(delta.x, delta.y, delta.z);
+      if (delta.x || delta.y || delta.z) obj.object.position.set(delta.x, delta.y, delta.z);
     });
   } catch (error) {
     Log.error('CORE', `[Physics] > updateWorld\n ${error}`);
