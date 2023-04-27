@@ -23,7 +23,7 @@ class _physics_world {
     this.water_vector = new Vector3(0, 0, 0);
     this.initialized = false;
     this.update_interval_id = null;
-    this.update_frequency = 120;
+    this.update_frequency = 144;
     this.interval_in_ms = 1000 / this.update_frequency;
     this.interval_in_seconds = 1 / this.update_frequency;
     this.bounding_boxes = [];
