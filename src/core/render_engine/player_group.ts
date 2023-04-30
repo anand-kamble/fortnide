@@ -21,7 +21,8 @@ const player_group_object = () => {
     mixer: AnimationMixer,
     numAnimations = 0,
     model_loaded = false,
-    movingForward = false;
+    movingForward = false,
+    movingBackward = false;
   const baseActions: { [k: string]: { [k: string]: AnimationAction | number } } = {
     'idle': { 'weight': 1 },
     'walk': { 'weight': 0 },
@@ -101,10 +102,10 @@ const player_group_object = () => {
     const { code } = e;
     if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
       baseActions.idle.weight = 0;
-      baseActions.sneak_pose.weight = 1;
+      baseActions.run.weight = 1;
       activateAction(baseActions.run.action as AnimationAction);
       activateAction(baseActions.idle.action as AnimationAction);
-      movingForward = true;
+      movingBackward = true;
     }
   });
 
@@ -112,11 +113,11 @@ const player_group_object = () => {
     const { code } = e;
     if (code === input_keys.getKey('moment-backward') && global_variables.allow_update()) {
       baseActions.idle.weight = 1;
-      baseActions.sneak_pose.weight = 0;
+      baseActions.run.weight = 0;
 
       activateAction(baseActions.run.action as AnimationAction);
       activateAction(baseActions.idle.action as AnimationAction);
-      movingForward = false;
+      movingBackward = false;
     }
   });
 
@@ -202,7 +203,7 @@ const player_group_object = () => {
         const settings = baseActions[clip.name];
         settings.weight = action.getEffectiveWeight();
       }
-      if (movingForward && global_variables.allow_update()) {
+      if (global_variables.allow_update()) {
         // player_group.position.z += 0.1;
 
         camera.getWorldDirection(tempCameraVector);
@@ -230,7 +231,9 @@ const player_group_object = () => {
 
         // Rotate the model by a tiny value towards the camera direction
         player_model.rotateY(Math.max(-0.5, Math.min(sanitisedAngle, 0.5)));
-        player_group.position.add(cameraDirection.multiplyScalar(0.05));
+
+        if (movingForward) player_group.position.add(cameraDirection.multiplyScalar(0.05));
+        if (movingBackward) player_group.position.add(cameraDirection.multiplyScalar(-0.05));
       }
       revolve_point.position.y = player_group.position.y + 1.6;
       revolve_point.position.x = player_group.position.x - 0.2;

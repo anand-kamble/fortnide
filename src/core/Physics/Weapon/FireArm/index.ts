@@ -5,7 +5,6 @@ import { Clock } from 'three';
 class FireArm extends Projectile {
   private fireRate: number;
   private massOfBullet: number;
-  private speedOfBullet: number;
   private MagSize: number;
   private RecoilFactors: [number, number][];
   private Clock: Clock;
@@ -14,6 +13,7 @@ class FireArm extends Projectile {
   private FireLoop: NodeJS.Timer;
   EmptyMagzine: boolean;
   constructor(
+    range: number,
     fireRate: number,
     massOfBullet: number,
     speedOfBullet: number,
@@ -22,10 +22,9 @@ class FireArm extends Projectile {
     EmptyMagzine?: boolean,
     onMagzineEmpty?: () => void
   ) {
-    super();
+    super(range, speedOfBullet);
     this.fireRate = fireRate;
     this.massOfBullet = massOfBullet;
-    this.speedOfBullet = speedOfBullet;
     this.MagSize = MagSize;
     this.RecoilFactors = RecoilFactors;
     this.Clock = animator.clock;
@@ -63,7 +62,7 @@ class FireArm extends Projectile {
   }
 
   private fire(roundIndex: number) {
-    return this.launch(this.RecoilFactors[roundIndex][0], this.RecoilFactors[roundIndex][1]).path();
+    return this.launch(this.RecoilFactors[roundIndex][0], this.RecoilFactors[roundIndex][1]);
   }
 }
 
