@@ -22,15 +22,12 @@ class Projectile {
   }
 
   launch(recoilX = 0, recoilY = 0, ProjectileObject?: Object3D) {
-    recoilX;
-    recoilY;
     this.recoilVector = new Vector3(recoilX, recoilY, 0);
 
     if (ProjectileObject !== undefined) this.ProjectileObject = ProjectileObject;
     if (this.ProjectileObject === null) this.ProjectileObject = this.createProjectielTHREEJSObject();
-    animator.camera.getWorldDirection(this._temp_camera_vector);
 
-    // this.updateLoop = setInterval(this.update.bind(this), 12);
+    animator.camera.getWorldDirection(this._temp_camera_vector);
     animator.add_renderer(this.id, this.update.bind(this));
 
     return this;
@@ -62,28 +59,6 @@ class Projectile {
     if (this.ProjectileObject) animator.scene.remove(this.ProjectileObject);
     this.ProjectileObject = null;
   }
-
-  // path() {
-  //   if (this.target) {
-  //     const segments = 20;
-  //     const path = [];
-  //     for (let i = 0; i < segments; i++) {
-  //       // path.push(this.initialPoint.clone().lerp(this.target.clone(), i / segments));
-
-  //     }
-
-  //     /* FOR DEBUG PURPOSE */
-  //     /* uncomment the following code and import necessary classes from three js */
-  //     /* this will allow you to visualize the generated path */
-  //     // const geometry = new BufferGeometry().setFromPoints(path);
-  //     // const material = new LineBasicMaterial({
-  //     // 'color': 0x0000ff,
-  //     // });
-  //     // const line = new Line(geometry, material);
-  //     // animator.scene.add(line);
-
-  //     return path;
-  //   }
 }
 
 export default Projectile;
