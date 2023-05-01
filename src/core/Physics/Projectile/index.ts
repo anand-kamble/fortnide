@@ -33,6 +33,12 @@ class Projectile {
     return this;
   }
 
+  /* 
+    Projectile is updated directly by the animator, this has been done in order to 
+    reduce load on the physics world updator since there can be numerous projectiles in scene 
+    at the same time.
+  */
+
   update(clock: number) {
     if (this.timeElapsed < this.timeRequired) {
       this.ProjectileObject &&
