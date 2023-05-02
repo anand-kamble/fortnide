@@ -11,7 +11,14 @@ The [Physics Class](./index.ts#L6) is structured slightly differently than other
 
 ## [Projectile](./Projectile/index.ts#L4)
 
-Generates a new projectile object which can be used to create a projectile path from camera to a specific point which is traced using a raycaster.
+This class creates a Projectile object which can be fired from camera and in the direction camera is looking at. A recoil factor can also be passed which will affect the trajectory of the projectile. The position of the projectile object is updated with every frame.
+
+```
+Note :
+Projectile is updated directly by the animator, this has been done in order to
+reduce load on the physics world updator since there can be numerous projectiles in scene
+at the same time.
+```
 
 ---
 
