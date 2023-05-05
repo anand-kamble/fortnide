@@ -10,8 +10,9 @@ class Projectile {
   private timeRequired: number;
   private timeElapsed: number;
   private recoilVector: Vector3;
+  private initialPosition?: Vector3;
 
-  constructor(range: number, speed?: number, DirectionVector?: Vector3) {
+  constructor(range: number, speed?: number, DirectionVector?: Vector3, initialPosition?: Vector3) {
     this.id = v4();
     this.range = range;
     this.speed = speed || 10;
@@ -19,12 +20,13 @@ class Projectile {
     this._temp_camera_vector = DirectionVector || new Vector3();
     this.timeElapsed = 0;
     this.timeRequired = range / this.speed;
+    this.initialPosition = initialPosition;
   }
 
   launch(recoilX = 0, recoilY = 0, ProjectileObject?: Object3D) {
     this.recoilVector = new Vector3(recoilX, recoilY, 0);
 
-    if (ProjectileObject !== undefined) this.ProjectileObject = ProjectileObject;
+    if (ProjectileObject) this.ProjectileObject = ProjectileObject;
     if (this.ProjectileObject === null) this.ProjectileObject = this.createProjectielTHREEJSObject();
 
     animator.camera.getWorldDirection(this._temp_camera_vector);
@@ -56,7 +58,9 @@ class Projectile {
     const geometry = new SphereGeometry(0.1, 3, 2);
     const material = new MeshBasicMaterial({ 'color': 0xffff00 });
     const sphere = new Mesh(geometry, material);
-    sphere.position.set(animator.camera.position.x, animator.camera.position.y, animator.camera.position.z);
+    this.initialPosition
+      ? sphere.position.set(this.initialPosition.x, this.initialPosition.y, this.initialPosition.z)
+      : sphere.position.set(animator.camera.position.x, animator.camera.position.y, animator.camera.position.z);
     animator.scene.add(sphere);
     return sphere;
   }

@@ -1,8 +1,9 @@
 import Projectile from '../../Projectile';
 
 import { animator } from '../../../render_engine';
-import { Clock } from 'three';
-class FireArm extends Projectile {
+import { Clock, Vector3 } from 'three';
+import State_manager from '../../../State Manager';
+class FireArm {
   private fireRate: number;
   private massOfBullet: number;
   private MagSize: number;
@@ -11,6 +12,8 @@ class FireArm extends Projectile {
   private firedCount: number;
   private onMagzineEmpty: () => void;
   private FireLoop: NodeJS.Timer;
+  private range: number;
+  private speedOfBullet: number;
   EmptyMagzine: boolean;
   constructor(
     range: number,
@@ -22,7 +25,8 @@ class FireArm extends Projectile {
     EmptyMagzine?: boolean,
     onMagzineEmpty?: () => void
   ) {
-    super(range, speedOfBullet);
+    this.range = range;
+    this.speedOfBullet = speedOfBullet;
     this.fireRate = fireRate;
     this.massOfBullet = massOfBullet;
     this.MagSize = MagSize;
@@ -62,7 +66,8 @@ class FireArm extends Projectile {
   }
 
   private fire(roundIndex: number) {
-    return this.launch(this.RecoilFactors[roundIndex][0], this.RecoilFactors[roundIndex][1]);
+    roundIndex;
+    new Projectile(80, 100, undefined, State_manager.game_state.Player_State?.position.clone().add(new Vector3(-0.2, 1.6, 0))).launch();
   }
 }
 

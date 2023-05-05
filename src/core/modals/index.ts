@@ -44,4 +44,5 @@ export interface Game_State {
   User: User_data | null;
   Player_State: Player_state | null;
   Other_Players: Player_state[];
+  timestamp: number;
 }
