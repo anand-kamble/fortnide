@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Loading, TestScreen } from '../Screens';
 import './index.css';
+import { Weapon } from '../Components';
 
 function Render() {
   const [state, setState] = useState({
@@ -11,6 +12,7 @@ function Render() {
     <>
       {!state.started && <TestScreen state={state} set_state={setState} />}
       {!state.warning_accepted && <Loading state={state} set_state={setState} />}
+      <Weapon />
     </>
   );
 }

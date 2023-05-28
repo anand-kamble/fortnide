@@ -1,8 +1,13 @@
 import Projectile from '../../Projectile';
 
 import { animator } from '../../../render_engine';
-import { Clock } from 'three';
-class FireArm extends Projectile {
+import { Clock, Vector3 } from 'three';
+import State_manager from '../../../State Manager';
+import { Ammo_Store_Type, Weapons } from '../../../modals';
+import { v4 } from 'uuid';
+class FireArm {
+  private id: string;
+  private typeOfBullet: keyof Ammo_Store_Type;
   private fireRate: number;
   private massOfBullet: number;
   private MagSize: number;
@@ -11,8 +16,11 @@ class FireArm extends Projectile {
   private firedCount: number;
   private onMagzineEmpty: () => void;
   private FireLoop: NodeJS.Timer;
+  private range: number;
+  private speedOfBullet: number;
   EmptyMagzine: boolean;
   constructor(
+    typeOfBullet: keyof Ammo_Store_Type,
     range: number,
     fireRate: number,
     massOfBullet: number,
@@ -22,7 +30,10 @@ class FireArm extends Projectile {
     EmptyMagzine?: boolean,
     onMagzineEmpty?: () => void
   ) {
-    super(range, speedOfBullet);
+    this.id = v4();
+    this.range = range;
+    this.typeOfBullet = typeOfBullet;
+    this.speedOfBullet = speedOfBullet;
     this.fireRate = fireRate;
     this.massOfBullet = massOfBullet;
     this.MagSize = MagSize;
@@ -38,6 +49,7 @@ class FireArm extends Projectile {
   }
 
   startFire() {
+    State_manager.game_state.ammo;
     this.firedCount = 0;
     this.FireLoop = setInterval(
       (() => {
@@ -62,7 +74,10 @@ class FireArm extends Projectile {
   }
 
   private fire(roundIndex: number) {
-    return this.launch(this.RecoilFactors[roundIndex][0], this.RecoilFactors[roundIndex][1]);
+    State_manager.update_state('weapons', [
+      { 'ammo': '.45acp', 'id': '', 'MagzineState': { 'count': this.MagSize - roundIndex, 'empty': false }, 'type': Weapons.Rifle },
+    ]);
+    new Projectile(80, 100, undefined, State_manager.game_state.Player_State?.position.clone().add(new Vector3(-0.2, 1.6, 0))).launch();
   }
 }
 
