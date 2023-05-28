@@ -236,18 +236,14 @@ const player_group_object = () => {
 
         if (movingForward) player_group.position.add(cameraDirection.multiplyScalar(0.05));
         if (movingBackward) player_group.position.add(cameraDirection.multiplyScalar(-0.05));
-        State_manager.update_state(
-          'Player_State',
-          {
-            'position': player_group.position,
-            'direction': new Vector3(player_group.rotation.x, player_group.rotation.y, player_group.rotation.z),
-            'id': '',
-            'weapon': Weapons.Rifle,
-            'health': 100,
-            'state': 'Idle',
-          },
-          animator.clock.elapsedTime
-        );
+        State_manager.update_state('Player_State', {
+          'position': player_group.position,
+          'direction': new Vector3(player_group.rotation.x, player_group.rotation.y, player_group.rotation.z),
+          'id': '',
+          'weapon': Weapons.Rifle,
+          'health': 100,
+          'state': 'Idle',
+        });
       }
       revolve_point.position.y = player_group.position.y + 1.6;
       revolve_point.position.x = player_group.position.x - 0.2;

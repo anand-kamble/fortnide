@@ -2,11 +2,15 @@ import { Clock } from 'three';
 import { Game_State, User_Types, User_data } from '../modals';
 import { animator } from '../render_engine';
 
+interface Listener_type {
+  for: keyof Game_State;
+  cb: (g: Game_State) => void;
+}
 class _State_manager {
   userType: User_Types;
   userData: User_data | null;
   game_state: Game_State;
-  ChangeListeners: ((g: Game_State) => void)[];
+  ChangeListeners: Listener_type[];
   clock: Clock;
 
   constructor() {
@@ -18,21 +22,22 @@ class _State_manager {
       'Player_State': null,
       'User': null,
       'timestamp': 0,
+      'weapons': [],
     };
     this.ChangeListeners = [];
     this.clock = animator.clock;
   }
 
-  update_state<K extends keyof Game_State>(stateKey: K, data: Game_State[K], timestamp: number) {
-    if (this.game_state[stateKey] !== data && this.game_state.timestamp < timestamp) {
+  update_state<K extends keyof Game_State>(stateKey: K, data: Game_State[K]) {
+    if (this.game_state[stateKey] !== data) {
       this.game_state[stateKey] = data;
-      this.game_state.timestamp = timestamp;
-      this.on_State_Change();
+      this.game_state.timestamp = this.clock.elapsedTime;
+      this.ChangeListeners.forEach(f => (f.for === stateKey ? f.cb(this.game_state) : null));
     }
   }
 
-  on_State_Change() {
-    this.ChangeListeners.forEach(f => this.game_state && f(this.game_state));
+  addStateListener(callback: (typeof this.ChangeListeners)[0]) {
+    this.ChangeListeners.push(callback);
   }
 }
 

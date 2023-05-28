@@ -41,6 +41,7 @@ export interface Player_state {
 }
 export interface Game_State {
   ammo: Ammo_Store_Type;
+  weapons: { 'id': string; 'type': Weapons; ammo: keyof Ammo_Store_Type; MagzineState: { empty: boolean; count: number } }[];
   User: User_data | null;
   Player_State: Player_state | null;
   Other_Players: Player_state[];
