@@ -184,17 +184,17 @@ const player_group_object = () => {
   const material = new MeshNormalMaterial();
   const revolve_point = new Mesh(geometry, material);
   revolve_point.position.y = 1.6;
-  revolve_point.position.x = -0.2;
+  revolve_point.position.x = -0.4;
 
-  // Set the third person camera to follow the point.
-  set_third_person(revolve_point);
+
 
   const light = new PointLight(0xff0000, 1, 100);
   light.position.set(3, -3, 3);
   player_group.add(light);
   player_group.add(revolve_point);
   player_group.rotateX(radian_from_degree(-90));
-
+  // Set the third person camera to follow the point.
+  set_third_person(revolve_point);
   animator.scene.add(player_group);
 
   animator.add_renderer('player_group', clock => {

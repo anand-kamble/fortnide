@@ -52,7 +52,7 @@ const init_scene = async () => {
   animator.scene.add(plane);
 
   physics.addObject({
-    'effects': ['ground'],
+    'effects': ['ground',"wind"],
     'object': plane,
   });
 

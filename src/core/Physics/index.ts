@@ -17,4 +17,9 @@ browser_bridge.addCallback('mouseup', 'FIREE', () => {
   Gun.stopFire();
 });
 
+
+
+
 export default physics;
+
+
